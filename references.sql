@@ -1,10 +1,14 @@
 -- Fichier references.sql
--- Alekesandra Maric (1049140) 
+-- Alekesandra Maric (1049140) & Thomas Bui (20055825)
 -- pour postgres
 
 BEGIN transaction;
 
 SET search_path to ParcInfo;
+
+delete from Logiciel where typeLog not in (select typeLP from Types);
+delete from Salle where indIP not in (select indIP from Segment);
+
 
 ALTER TABLE Poste
 	ADD CONSTRAINT poste_indIPfk
@@ -12,7 +16,7 @@ ALTER TABLE Poste
 
 ALTER TABLE Poste
 	ADD CONSTRAINT poste_typePostefk
-	foreign key (typePoste) references types(typePoste);
+	foreign key (typePoste) references types(typeLP);
 
 ALTER TABLE Poste
 	ADD CONSTRAINT poste_nSallefk
@@ -28,7 +32,7 @@ ALTER TABLE Installer
 
 ALTER TABLE Logiciel 
 	ADD CONSTRAINT logiciel_typeLogfk
-	foreign key (typelog) references types(typelog);
+	foreign key (typelog) references types(typeLP);
 
 ALTER TABLE Salle 
 	ADD CONSTRAINT salle_indIpfk
